@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+
+    <title>Planificador de Comidas Saludables</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Planificador Semanal de Comidas Saludables</h1>
+    <p class="quote">"Cuidar el bolsillo también es cuidar el cuerpo, la mente y el espíritu."</p>
+    
+    <div class="meal-planner" id="mealPlanner">
+        <!-- Días de la semana -->
+        <div class="header"></div>
+        <div class="header">LUN</div>
+        <div class="header">MAR</div>
+        <div class="header">MIER</div>
+        <div class="header">JUEV</div>
+        <div class="header">VIER</div>
+        <div class="header">SAB</div>
+        <div class="header">DOM</div>
+        
+        <!-- Almuerzos -->
+        <div class="meal-time">ALMUERZO</div>
+        <div class="day-cell" data-day="LUN" data-meal="almuerzo"></div>
+        <div class="day-cell" data-day="MAR" data-meal="almuerzo"></div>
+        <div class="day-cell" data-day="MIER" data-meal="almuerzo"></div>
+        <div class="day-cell" data-day="JUEV" data-meal="almuerzo"></div>
+        <div class="day-cell" data-day="VIER" data-meal="almuerzo"></div>
+        <div class="day-cell" data-day="SAB" data-meal="almuerzo"></div>
+        <div class="day-cell" data-day="DOM" data-meal="almuerzo"></div>
+        
+        <!-- Cenas -->
+        <div class="meal-time">CENA</div>
+        <div class="day-cell" data-day="LUN" data-meal="cena"></div>
+        <div class="day-cell" data-day="MAR" data-meal="cena"></div>
+        <div class="day-cell" data-day="MIER" data-meal="cena"></div>
+        <div class="day-cell" data-day="JUEV" data-meal="cena"></div>
+        <div class="day-cell" data-day="VIER" data-meal="cena"></div>
+        <div class="day-cell" data-day="SAB" data-meal="cena"></div>
+        <div class="day-cell" data-day="DOM" data-meal="cena"></div>
+    </div>
+    
+    <div class="actions">
+        <button id="exportBtn">Exportar a PDF</button>
+        <button id="clearBtn">Limpiar Planificador</button>
+    </div>
+    
+    <!-- Modal para agregar comida -->
+    <div id="mealModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modalTitle">Agregar Comida</h2>
+            <form id="mealForm">
+                <input type="hidden" id="selectedDay">
+                <input type="hidden" id="selectedMeal">
+                
+                <div class="form-group">
+                    <label for="protein">Proteína:</label>
+                    <select id="protein" required>
+                        <option value="">Seleccione una proteína</option>
+                        <option value="CARNE ROJA">Carne roja</option>
+                        <option value="POLLO">Pollo</option>
+                        <option value="CERDO">Cerdo</option>
+                        <option value="PESCADO">Pescado</option>
+                        <option value="HUEVO">Huevo</option>
+                        <option value="LENTEJAS">Lentejas</option>
+                        <option value="POROTOS">Porotos</option>
+                        <option value="GARBANZOS">Garbanzos</option>
+                        <option value="TOFU">Tofu</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="carb">Carbohidrato saludable:</label>
+                    <select id="carb" required>
+                        <option value="">Seleccione un carbohidrato</option>
+                        <option value="ARROZ INTEGRAL">Arroz integral</option>
+                        <option value="QUINOA">Quinoa</option>
+                        <option value="COUS COUS">Cous cous</option>
+                        <option value="GARBANZOS">Garbanzos</option>
+                        <option value="LENTEJAS">Lentejas</option>
+                        <option value="VARIEDAD DE POROTOS">Variedad de porotos</option>
+                        <option value="MANDIOCA">Mandioca</option>
+                        <option value="TAPIOCA">Tapioca</option>
+                        <option value="AVENA">Avena</option>
+                        <option value="HARINAS INTEGRALES">Harinas integrales</option>
+                        <option value="FIDEOS INTEGRALES">Fideos integrales</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="vegetable">Vegetales:</label>
+                    <select id="vegetable" required>
+                        <option value="">Seleccione vegetales</option>
+                        <option value="PAPA">Papa</option>
+                        <option value="BONIATO">Boniato</option>
+                        <option value="ZANAHORIA">Zanahoria</option>
+                        <option value="REMOLACHA">Remolacha</option>
+                        <option value="ZAPALLO O CALABACHI">Zapallo o calabaza</option>
+                        <option value="ZAPALLITO O ZUCCHINI">Zapallito o zucchini</option>
+                        <option value="ACELGA/ESPINACA">Acelga/Espinaca</option>
+                        <option value="BIÓCCULICOLIFLOR">Brócoli/Coliflor</option>
+                        <option value="BERENJENA">Berenjena</option>
+                        <option value="TOMATE">Tomate</option>
+                        <option value="CEBOLLA">Cebolla</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="fat">Grasas:</label>
+                    <select id="fat" required>
+                        <option value="">Seleccione una grasa saludable</option>
+                        <option value="PALTA">Palta</option>
+                        <option value="ACEITE DE OLIVA EXTRA VIRGEN">Aceite de oliva extra virgen</option>
+                        <option value="ACEITE DE COCO">Aceite de coco</option>
+                        <option value="ACEITUNAS">Aceitunas</option>
+                        <option value="FRUTOS SECOS">Frutos secos</option>
+                        <option value="SEMILLAS">Semillas</option>
+                        <option value="OTROS ACEITES">Otros aceites</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="condiment">Condimentos:</label>
+                    <select id="condiment" required>
+                        <option value="">Seleccione condimentos</option>
+                        <option value="AJO/YEEBOLLA/MORRON">Ajo/cebolla/morrón</option>
+                        <option value="CÚRCUMA/PIMIENTA">Cúrcuma/Pimienta</option>
+                        <option value="CUBRIVICOMINOLAJUREL">Cubriví comino laurel</option>
+                        <option value="PIMENTÓN/PIMIENTA">Pimentón/Pimienta</option>
+                        <option value="SAL MARINA/SAL ROSADA">Sal marina/Sal rosada</option>
+                        <option value="ORÉGANO/TOMILLO">Orégano/Tomillo</option>
+                        <option value="ROMERO/ENELDO">Romero/Eneldo</option>
+                        <option value="JENGIBRE EN POLVO O NATURAL">Jengibre</option>
+                        <option value="CEBOLLA EN ESCANAS">Cebolla en escamas</option>
+                        <option value="CILANTRO/PEREJIL">Cilantro/Perejil</option>
+                        <option value="MENTA/ALBAHACA">Menta/Albahaca</option>
+                        <option value="CANELAVANS (DULCES)">Canela/Vainilla (dulces)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="extra">Extra:</label>
+                    <select id="extra">
+                        <option value="">Opcional</option>
+                        <option value="MAYONESA CASERA">Mayonesa casera</option>
+                        <option value="MIEL">Miel</option>
+                        <option value="HUMMUS">Hummus</option>
+                        <option value="TERVARI">Tervari</option>
+                        <option value="MOSTAZA DIJON">Mostaza Dijon</option>
+                        <option value="FRUTAS PASAS">Frutas pasas</option>
+                        <option value="FRUTAS NATURALES">Frutas naturales</option>
+                        <option value="SALSA DE YOGUR CON HIERBAS">Salsa de yogur con hierbas</option>
+                        <option value="VINAGRE DE MANZANA">Vinagre de manzana</option>
+                        <option value="CHIMICHUBRI CASERO">Chimichurri casero</option>
+                        <option value="SALSA DE TOMATE">Salsa de tomate</option>
+                        <option value="GUACAMOLE">Guacamole</option>
+                    </select>
+                </div>
+                <button type="button" id="randomBtn">Generar Plato Aleatorio</button>
+                <button type="submit">Guardar Comida</button>
+            </form>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
+</body>
+</html>
