@@ -27,4 +27,3 @@ The weekly plan is automatically saved in the browser's local storage to persist
 
 ---
 
-¿Querés que te genere ahora un `README.md` completo para que lo copies y pegues en tu repo?
